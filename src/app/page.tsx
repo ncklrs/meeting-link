@@ -5,7 +5,7 @@ export default function LandingPage() {
   return (
     <>
       <OptInBanner />
-      <MeetingCostCalculator />
+      <MeetingCostCalculator isDark={false} />
     </>
   );
 }

@@ -12,12 +12,14 @@ export function CostCounter({ isDark = true }: CostCounterProps) {
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
     const remainingSeconds = seconds % 60;
-    return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${remainingSeconds.toString().padStart(2, "0")}`;
+    return `${hours.toString().padStart(2, "0")}:${minutes
+      .toString()
+      .padStart(2, "0")}:${remainingSeconds.toString().padStart(2, "0")}`;
   };
 
   const bgColor = isDark ? "bg-gray-800" : "bg-white";
   const textColor = isDark ? "text-white" : "text-gray-900";
-  const accentColor = isDark ? "text-indigo-400" : "text-indigo-600";
+  const accentColor = isDark ? "text-cyan-400" : "text-cyan-600";
 
   return (
     <Card className={`h-full w-full overflow-hidden ${bgColor}`}>

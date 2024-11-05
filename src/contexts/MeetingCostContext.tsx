@@ -1,6 +1,12 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+} from "react";
 
 interface Attendee {
   id: number;
@@ -24,7 +30,7 @@ interface MeetingCostContextType {
 }
 
 const MeetingCostContext = createContext<MeetingCostContextType | undefined>(
-  undefined,
+  undefined
 );
 
 export const useMeetingCost = () => {
@@ -48,7 +54,7 @@ export const MeetingCostProvider: React.FC<MeetingCostProviderProps> = ({
     defaultAttendees.map((attendee) => ({
       ...attendee,
       id: Date.now() + Math.random(),
-    })),
+    }))
   );
   const [estimatedTime, setEstimatedTime] = useState(60);
   const [currentCost, setCurrentCost] = useState(0);
@@ -65,19 +71,7 @@ export const MeetingCostProvider: React.FC<MeetingCostProviderProps> = ({
     return () => clearInterval(interval);
   }, [isRunning]);
 
-  useEffect(() => {
-    calculateCost();
-  }, [elapsedTime, attendees]);
-
-  const addAttendee = (attendee: Omit<Attendee, "id">) => {
-    setAttendees([...attendees, { ...attendee, id: Date.now() }]);
-  };
-
-  const removeAttendee = (id: number) => {
-    setAttendees(attendees.filter((attendee) => attendee.id !== id));
-  };
-
-  const calculateCost = () => {
+  const calculateCost = useCallback(() => {
     const totalCost = attendees.reduce((acc, attendee) => {
       const hourlyRate =
         attendee.salaryType === "annual"
@@ -86,6 +80,18 @@ export const MeetingCostProvider: React.FC<MeetingCostProviderProps> = ({
       return acc + (hourlyRate / 3600) * elapsedTime;
     }, 0);
     setCurrentCost(totalCost);
+  }, [attendees, elapsedTime]);
+
+  useEffect(() => {
+    calculateCost();
+  }, [elapsedTime, attendees, calculateCost]);
+
+  const addAttendee = (attendee: Omit<Attendee, "id">) => {
+    setAttendees([...attendees, { ...attendee, id: Date.now() }]);
+  };
+
+  const removeAttendee = (id: number) => {
+    setAttendees(attendees.filter((attendee) => attendee.id !== id));
   };
 
   const startTimer = () => setIsRunning(true);
