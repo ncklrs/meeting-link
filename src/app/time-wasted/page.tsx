@@ -5,7 +5,8 @@ import { OptInBanner } from "@/components/OptInBanner";
 interface PersonalCostCalculatorProps {
   isDark?: boolean;
 }
-export default function PersoanlCostPage({
+
+export default function PersonalCostPage({
   isDark = false,
 }: PersonalCostCalculatorProps) {
   const bgColor = isDark ? "bg-gray-900" : "bg-white";
@@ -26,7 +27,7 @@ export default function PersoanlCostPage({
             Identify the cost of your time in meetings
           </p>
           <div className="mt-10">
-            <PersonalCostCalculator isDark={false} />
+            <PersonalCostCalculator isDark={isDark} />
           </div>
         </div>
       </div>
