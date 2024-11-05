@@ -17,7 +17,7 @@ interface PersonalCostCalculatorProps {
 export function PersonalCostCalculator({
   isDark = true,
 }: PersonalCostCalculatorProps) {
-  // const bgColor = isDark ? "bg-gray-900" : "bg-white";
+  const bgColor = isDark ? "bg-gray-900" : "bg-white";
   // const textColor = isDark ? "text-white" : "text-gray-900";
   const [weeklyMeetingHours, setWeeklyMeetingHours] = useState("");
   const [annualSalary, setAnnualSalary] = useState("");
@@ -40,7 +40,9 @@ export function PersonalCostCalculator({
   };
 
   return (
-    <Card className="w-full max-w-md mx-auto mb-16 shadow rounded-lg">
+    <Card
+      className={`${bgColor} w-full max-w-md mx-auto mb-16 shadow rounded-lg`}
+    >
       <CardHeader>
         <CardTitle>
           <h4>Personal Meeting Cost Calculator</h4>
