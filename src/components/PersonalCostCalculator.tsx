@@ -17,8 +17,8 @@ interface PersonalCostCalculatorProps {
 export function PersonalCostCalculator({
   isDark = true,
 }: PersonalCostCalculatorProps) {
-  const bgColor = isDark ? "bg-gray-900" : "bg-white";
-  const textColor = isDark ? "text-white" : "text-gray-900";
+  // const bgColor = isDark ? "bg-gray-900" : "bg-white";
+  // const textColor = isDark ? "text-white" : "text-gray-900";
   const [weeklyMeetingHours, setWeeklyMeetingHours] = useState("");
   const [annualSalary, setAnnualSalary] = useState("");
   const [meetingCost, setMeetingCost] = useState(0);
