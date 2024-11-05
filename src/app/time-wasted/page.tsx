@@ -2,13 +2,13 @@
 import { PersonalCostCalculator } from "@/components/PersonalCostCalculator";
 import { OptInBanner } from "@/components/OptInBanner";
 
-interface PersonalCostCalculatorProps {
+interface PersonalCostPageProps {
   isDark?: boolean;
 }
 
 export default function PersonalCostPage({
   isDark = false,
-}: PersonalCostCalculatorProps) {
+}: PersonalCostPageProps) {
   const bgColor = isDark ? "bg-gray-900" : "bg-white";
   const textColor = isDark ? "text-white" : "text-gray-900";
   return (
