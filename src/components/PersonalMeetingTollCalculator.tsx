@@ -213,7 +213,7 @@ export function PersonalMeetingTollCalculator({
                 </CardHeader>
                 <CardContent>
                   {Object.entries(dailyMeetingHours).map(([day, hours]) => (
-                    <p key={day} className={textColor}>
+                    <p key={day} className={` ${textColor} font-semibold`}>
                       {day}: {hours} hours
                     </p>
                   ))}

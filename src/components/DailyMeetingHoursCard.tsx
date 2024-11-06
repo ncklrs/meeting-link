@@ -26,7 +26,10 @@ const DailyMeetingHoursCard: React.FC<DailyMeetingHoursCardProps> = ({
         {Object.entries(tempDailyHours).map(([day, hours]) => (
           <div key={day} className="space-y-2">
             <div className="flex justify-between items-center">
-              <Label htmlFor={`${day}-hours`} className={textColor}>
+              <Label
+                htmlFor={`${day}-hours`}
+                className={` ${textColor} font-semibold `}
+              >
                 {day}
               </Label>
               <Input
