@@ -18,8 +18,10 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Meet Smart - The best way to plan productive cost saving meetings",
-  description: "Meet Smart is the best way to schedule (or not) meetings",
+  title:
+    "Meeting Manifesto - The best way to plan productive cost saving meetings",
+  description:
+    "Meeting Manifesto is the best way to schedule (or not) meetings",
 };
 
 export default function RootLayout({
