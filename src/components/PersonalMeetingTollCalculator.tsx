@@ -104,11 +104,16 @@ export function PersonalMeetingTollCalculator({
   };
 
   return (
-    <div className={`${bgColor} min-h-screen py-12 px-4 sm:px-6 lg:px-8`}>
-      <div className="max-w-7xl mx-auto">
-        <h1 className={`text-3xl font-bold ${textColor} mb-8`}>
-          Personal Meeting Toll Calculator
-        </h1>
+    <div className={`${bgColor} py-24 sm:py-32 font-sans`}>
+      <div className="mx-auto max-w-2xl px-6 lg:max-w-7xl lg:px-8">
+        <h2 className={`text-base/7 font-semibold text-cyan-600 ${textColor}`}>
+          What are meetings costing you?
+        </h2>
+        <p
+          className={`my-2 max-w-lg text-pretty text-4xl font-semibold tracking-tight sm:text-5xl ${textColor}`}
+        >
+          Track and optimize your time spent in meetings
+        </p>
 
         {!isDataSubmitted ? (
           <form onSubmit={handleSubmit} className="space-y-8">
