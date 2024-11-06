@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { X } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { analytics } from "@/lib/segment";
+
 import {
   Dialog,
   DialogContent,
@@ -32,6 +34,10 @@ export function OptInBanner() {
 
   const onSubmit = (data: FormData) => {
     console.log(data);
+    analytics.track("Form Submitted", {
+      data,
+    });
+    analytics.identify(data.email, {});
     setIsSubmitted(true);
     setIsDialogOpen(false);
   };
@@ -67,7 +73,7 @@ export function OptInBanner() {
         </div>
         <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
           <p className="text-sm/6 text-gray-900">
-            <strong className="font-semibold">Meeting Cost Calculator</strong>
+            <strong className="font-semibold">Meet Smart</strong>
             <svg
               viewBox="0 0 2 2"
               aria-hidden="true"
@@ -76,11 +82,19 @@ export function OptInBanner() {
               <circle r={1} cx={1} cy={1} />
             </svg>
             {isSubmitted
-              ? "Thank you for your interest! We'll be in touch soon."
+              ? "Thank you for your interest! More ways to improve your meetings coming soon."
               : "Sign up now to start optimizing your meeting costs."}
           </p>
           {!isSubmitted && (
-            <Button onClick={() => setIsDialogOpen(true)}>
+            <Button
+              onClick={() => {
+                analytics.track("CTA Click", {
+                  category: "User Engagement",
+                  label: "OptInBanner",
+                });
+                setIsDialogOpen(true);
+              }}
+            >
               Register now <span aria-hidden="true">&rarr;</span>
             </Button>
           )}

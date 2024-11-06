@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { GoogleTagManager } from "@next/third-parties/google";
+import Analytics from "@/components/analytics";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -15,8 +16,8 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Meeting Link - The best way to schedule meetings",
-  description: "Meeting Link is the best way to schedule meetings",
+  title: "Meet Smart - The best way to plan productive cost saving meetings",
+  description: "Meet Smart is the best way to schedule (or not) meetings",
 };
 
 export default function RootLayout({
@@ -32,6 +33,7 @@ export default function RootLayout({
       >
         {children}
       </body>
+      <Analytics />
     </html>
   );
 }
