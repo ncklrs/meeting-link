@@ -28,13 +28,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <GoogleTagManager gtmId="GTM-KQ38QKSK" />
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        {children}
+      </body>
       <Suspense fallback={<div>Loading...</div>}>
-        <GoogleTagManager gtmId="GTM-KQ38QKSK" />
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        >
-          {children}
-        </body>
         <Analytics />
       </Suspense>
     </html>
