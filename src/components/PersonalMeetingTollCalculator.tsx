@@ -2,16 +2,28 @@
 
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Slider } from "@/components/ui/slider";
+
 import { PersonalProductivityLossIndex } from "./PersonalProductivityLossIndex";
 import { PersonalRecoveryProfile } from "./PersonalRecoveryProfile";
 import { PersonalFlowDistributionChart } from "./PersonalFlowDistributionChart";
 import { PersonalMentalLoadIndicator } from "./PersonalMentalLoadIndicator";
 import { PersonalImpactSummary } from "./PersonalImpactSummary";
 import { useMeetingStore } from "@/store/useMeetingStore";
+import { analytics } from "@/lib/segment";
+import SalaryInformationCard from "./SalaryInformationCard";
+import DailyMeetingHoursCard from "./DailyMeetingHoursCard";
+import RecoveryTimeCard from "./RecoveryTimeCard";
+import { set } from "react-hook-form";
 
 export function PersonalMeetingTollCalculator({
   isDark = true,
@@ -32,7 +44,8 @@ export function PersonalMeetingTollCalculator({
     resetAllData,
   } = useMeetingStore();
 
-  const [tempSalary, setTempSalary] = useState(salary?.toString() || "");
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [tempSalary, setTempSalary] = useState<number>(Number(salary) || 98000);
   const [tempSalaryType, setTempSalaryType] = useState(salaryType);
   const [tempDailyHours, setTempDailyHours] = useState(dailyMeetingHours);
   const [tempRecoveryTime, setTempRecoveryTime] = useState(recoveryTimePerHour);
@@ -60,15 +73,25 @@ export function PersonalMeetingTollCalculator({
     setDailyMeetingHours(tempDailyHours);
     setRecoveryTimePerHour(tempRecoveryTime);
     setIsDataSubmitted(true);
+    setIsDialogOpen(false);
+    analytics.track("Calculation Complete", {
+      category: "User Engagement",
+      label: "Personal Meeting Toll Calculator",
+      salary: tempSalary,
+      salaryType: tempSalaryType,
+      dailyMeetingHours: tempDailyHours,
+      recoveryTimePerHour: tempRecoveryTime,
+    });
   };
 
   const handleUpdate = () => {
-    setIsDataSubmitted(false);
+    // setIsDataSubmitted(false);
+    setIsDialogOpen(true);
   };
 
   const handleReset = () => {
     resetAllData();
-    setTempSalary("");
+    setTempSalary(98000);
     setTempSalaryType("annual");
     setTempDailyHours({
       Monday: 2,
@@ -89,136 +112,27 @@ export function PersonalMeetingTollCalculator({
 
         {!isDataSubmitted ? (
           <form onSubmit={handleSubmit} className="space-y-8">
-            <Card className={bgColor}>
-              <CardHeader>
-                <CardTitle className={textColor}>Salary Information</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <Label htmlFor="salary" className={textColor}>
-                    Salary
-                  </Label>
-                  <Input
-                    id="salary"
-                    type="number"
-                    value={tempSalary}
-                    onChange={(e) => setTempSalary(e.target.value)}
-                    required
-                    className="mt-1"
-                  />
-                </div>
-                <div>
-                  <Label className={textColor}>Salary Type</Label>
-                  <div className="mt-1 space-x-4">
-                    <label className={textColor}>
-                      <input
-                        type="radio"
-                        name="salaryType"
-                        value="hourly"
-                        checked={tempSalaryType === "hourly"}
-                        onChange={() => setTempSalaryType("hourly")}
-                        className="mr-2"
-                      />
-                      Hourly
-                    </label>
-                    <label className={textColor}>
-                      <input
-                        type="radio"
-                        name="salaryType"
-                        value="annual"
-                        checked={tempSalaryType === "annual"}
-                        onChange={() => setTempSalaryType("annual")}
-                        className="mr-2"
-                      />
-                      Annual
-                    </label>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+            <SalaryInformationCard
+              bgColor={bgColor}
+              textColor={textColor}
+              tempSalary={Number(tempSalary)}
+              setTempSalary={setTempSalary}
+              tempSalaryType={tempSalaryType}
+              setTempSalaryType={setTempSalaryType}
+            />
 
-            <Card className={bgColor}>
-              <CardHeader>
-                <CardTitle className={textColor}>Daily Meeting Hours</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {Object.entries(tempDailyHours).map(([day, hours]) => (
-                  <div key={day} className="space-y-2">
-                    <div className="flex justify-between items-center">
-                      <Label htmlFor={`${day}-hours`} className={textColor}>
-                        {day}
-                      </Label>
-                      <Input
-                        id={`${day}-hours-input`}
-                        type="number"
-                        min="0"
-                        max="24"
-                        step="0.5"
-                        value={hours}
-                        onChange={(e) =>
-                          setTempDailyHours({
-                            ...tempDailyHours,
-                            [day]: Number(e.target.value),
-                          })
-                        }
-                        className="w-20 text-right"
-                      />
-                    </div>
-                    <Slider
-                      id={`${day}-hours`}
-                      min={0}
-                      max={8}
-                      step={0.5}
-                      value={[hours]}
-                      onValueChange={(value) =>
-                        setTempDailyHours({
-                          ...tempDailyHours,
-                          [day]: value[0],
-                        })
-                      }
-                    />
-                  </div>
-                ))}
-              </CardContent>
-            </Card>
-
-            <Card className={bgColor}>
-              <CardHeader>
-                <CardTitle className={textColor}>Recovery Time</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div>
-                    <Label htmlFor="recovery-time" className={textColor}>
-                      Recovery Time per Meeting Hour (minutes)
-                    </Label>
-                    <div className="flex items-center space-x-4">
-                      <Input
-                        id="recovery-time"
-                        type="number"
-                        min="0"
-                        max="60"
-                        value={tempRecoveryTime}
-                        onChange={(e) =>
-                          setTempRecoveryTime(Number(e.target.value))
-                        }
-                        className="w-20"
-                      />
-                      <Slider
-                        id="recovery-time-slider"
-                        min={0}
-                        max={60}
-                        step={1}
-                        value={[tempRecoveryTime]}
-                        onValueChange={(value) => setTempRecoveryTime(value[0])}
-                        className="flex-grow"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
+            <DailyMeetingHoursCard
+              bgColor={bgColor}
+              textColor={textColor}
+              tempDailyHours={tempDailyHours}
+              setTempDailyHours={setTempDailyHours}
+            />
+            <RecoveryTimeCard
+              bgColor={bgColor}
+              textColor={textColor}
+              tempRecoveryTime={tempRecoveryTime}
+              setTempRecoveryTime={setTempRecoveryTime}
+            />
             <div className="flex justify-end space-x-4">
               <Button type="button" variant="outline" onClick={handleReset}>
                 Reset
@@ -228,6 +142,49 @@ export function PersonalMeetingTollCalculator({
           </form>
         ) : (
           <>
+            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+              {/* <DialogTrigger asChild>
+                <Button type="button" onClick={handleUpdate}>
+                  Update
+                </Button>
+              </DialogTrigger> */}
+              <DialogContent className="sm:max-w-[425px]">
+                <form onSubmit={handleSubmit} className="space-y-8">
+                  <DialogHeader>
+                    <DialogTitle>Update Information</DialogTitle>
+                    <DialogDescription>
+                      Make changes to your information here. Click save when
+                      you're done.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="grid gap-4 py-4">
+                    <SalaryInformationCard
+                      bgColor={bgColor}
+                      textColor={textColor}
+                      tempSalary={Number(tempSalary)}
+                      setTempSalary={setTempSalary}
+                      tempSalaryType={tempSalaryType}
+                      setTempSalaryType={setTempSalaryType}
+                    />
+                    <DailyMeetingHoursCard
+                      bgColor={bgColor}
+                      textColor={textColor}
+                      tempDailyHours={tempDailyHours}
+                      setTempDailyHours={setTempDailyHours}
+                    />
+                    <RecoveryTimeCard
+                      bgColor={bgColor}
+                      textColor={textColor}
+                      tempRecoveryTime={tempRecoveryTime}
+                      setTempRecoveryTime={setTempRecoveryTime}
+                    />
+                  </div>
+                  <DialogFooter>
+                    <Button type="submit">Save changes</Button>
+                  </DialogFooter>
+                </form>
+              </DialogContent>
+            </Dialog>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
               <Card className={bgColor}>
                 <CardHeader>
