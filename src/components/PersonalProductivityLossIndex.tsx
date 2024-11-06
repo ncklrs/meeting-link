@@ -9,9 +9,9 @@ export function PersonalProductivityLossIndex({
   totalWeeklyMeetingHours,
   isDark = true,
 }: PersonalProductivityLossIndexProps) {
-  const bgColor = isDark ? "bg-gray-800" : "bg-white";
-  const textColor = isDark ? "text-white" : "text-gray-900";
-  const accentColor = isDark ? "text-indigo-400" : "text-indigo-600";
+  const bgColor = isDark ? "bg-gray-800" : "bg-background"; // Background color
+  const textColor = isDark ? "text-gray-50" : "text-primaryText"; // Primary text color
+  const accentColor = isDark ? "bg-gray-700" : "bg-secondaryBackground"; // Item background color
 
   const calculateProductivityLoss = () => {
     // This is a simplified calculation and should be adjusted based on research or specific requirements
@@ -42,7 +42,7 @@ export function PersonalProductivityLossIndex({
         </div>
         <div className="mt-4 h-3 bg-gray-200 rounded-full overflow-hidden">
           <div
-            className="h-full bg-indigo-600"
+            className="h-full bg-primaryAccent"
             style={{ width: `${productivityLoss}%` }}
           />
         </div>

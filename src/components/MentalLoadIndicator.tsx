@@ -18,9 +18,9 @@ export function MentalLoadIndicator({
     100
   );
 
-  const bgColor = isDark ? "bg-gray-800" : "bg-white";
-  const textColor = isDark ? "text-white" : "text-gray-900";
-  const accentColor = isDark ? "text-indigo-400" : "text-indigo-600";
+  const bgColor = isDark ? "bg-gray-800" : "bg-background"; // Background color
+  const textColor = isDark ? "text-gray-50" : "text-primaryText"; // Primary text color
+  const accentColor = isDark ? "bg-gray-100" : "bg-secondaryAccent"; // Item background color
 
   return (
     <Card
@@ -30,7 +30,7 @@ export function MentalLoadIndicator({
         <CardTitle className={textColor}>Mental Load Indicator</CardTitle>
       </CardHeader>
       <CardContent>
-        <p className={`text-3xl font-bold ${accentColor}`}>
+        <p className={`text-3xl font-bold text-primaryText`}>
           {mentalLoadScore.toFixed(2)}
         </p>
         <p className={`mt-2 text-sm ${textColor}`}>Mental Load Score (0-100)</p>

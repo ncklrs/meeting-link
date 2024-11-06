@@ -17,9 +17,9 @@ export function PersonalFlowDistributionChart({
   dailyMeetingHours,
   isDark = true,
 }: PersonalFlowDistributionChartProps) {
-  const bgColor = isDark ? "bg-gray-800" : "bg-white";
-  const textColor = isDark ? "text-white" : "text-gray-900";
-  const accentColor = isDark ? "text-indigo-400" : "text-indigo-600";
+  const bgColor = isDark ? "bg-gray-800" : "bg-background"; // Background color
+  const textColor = isDark ? "text-gray-50" : "text-primaryText"; // Primary text color
+  const itemBgColor = isDark ? "bg-gray-700" : "bg-secondaryBackground"; // Item background color
 
   const calculateFlowScore = (meetingHours: number) => {
     // This is a simplified calculation and should be adjusted based on research or specific requirements
@@ -44,14 +44,14 @@ export function PersonalFlowDistributionChart({
             <YAxis stroke={isDark ? "#fff" : "#000"} />
             <Tooltip
               contentStyle={{
-                backgroundColor: isDark ? "#1f2937" : "#fff",
-                color: isDark ? "#fff" : "#000",
+                backgroundColor: isDark ? "bg-gray-800" : "bg-white",
+                color: isDark ? "text-white" : "text-black",
               }}
             />
             <Line
               type="monotone"
               dataKey="flowScore"
-              stroke="#4f46e5"
+              stroke="#2563eb"
               strokeWidth={2}
             />
           </LineChart>

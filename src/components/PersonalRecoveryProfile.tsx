@@ -19,9 +19,9 @@ export function PersonalRecoveryProfile({
   recoveryTimePerHour,
   isDark = true,
 }: PersonalRecoveryProfileProps) {
-  const bgColor = isDark ? "bg-gray-800" : "bg-white";
-  const textColor = isDark ? "text-white" : "text-gray-900";
-  const accentColor = isDark ? "text-indigo-400" : "text-indigo-600";
+  const bgColor = isDark ? "bg-gray-800" : "bg-background"; // Background color
+  const textColor = isDark ? "text-gray-50" : "text-primaryText"; // Primary text color
+  const accentColor = isDark ? "bg-gray-700" : "bg-secondaryBackground"; // Item background color
 
   const calculateRecoveryTime = (meetingHours: number) => {
     return (meetingHours * recoveryTimePerHour) / 60; // Convert to hours
@@ -54,8 +54,8 @@ export function PersonalRecoveryProfile({
                 color: isDark ? "#fff" : "#000",
               }}
             />
-            <Bar dataKey="meetingHours" fill="#4f46e5" name="Meeting Hours" />
-            <Bar dataKey="recoveryTime" fill="#22c55e" name="Recovery Time" />
+            <Bar dataKey="meetingHours" fill="#2563eb" name="Meeting Hours" />
+            <Bar dataKey="recoveryTime" fill="#f97316" name="Recovery Time" />
           </BarChart>
         </ResponsiveContainer>
         <div className={`mt-4 ${textColor}`}>

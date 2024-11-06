@@ -27,9 +27,9 @@ export function FlowDisruptionChart({
     { day: "Fri", interruptions: 9 },
   ];
 
-  const bgColor = isDark ? "bg-gray-800" : "bg-white";
-  const textColor = isDark ? "text-white" : "text-gray-900";
-  const barColor = isDark ? "#818cf8" : "#4f46e5";
+  const bgColor = isDark ? "bg-gray-800" : "bg-background"; // Background color
+  const textColor = isDark ? "text-gray-50" : "text-primaryText"; // Primary text color
+  const barColor = isDark ? "bg-gray-700" : "bg-secondaryBackground"; // Item background color
 
   return (
     <Card

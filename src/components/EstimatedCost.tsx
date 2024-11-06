@@ -18,9 +18,9 @@ export function EstimatedCost({ isDark = true }: EstimatedCostProps) {
     return acc + (hourlyRate / 60) * estimatedTime;
   }, 0);
 
-  const bgColor = isDark ? "bg-gray-800" : "bg-white";
-  const textColor = isDark ? "text-white" : "text-gray-900";
-  const accentColor = isDark ? "text-cyan-400" : "text-cyan-600";
+  const bgColor = isDark ? "bg-gray-800" : "bg-background"; // Background color
+  const textColor = isDark ? "text-gray-50" : "text-primaryText"; // Primary text color
+  const accentColor = isDark ? "bg-gray-700" : "text-primaryAccent"; // Item background color
 
   return (
     <Card className={`h-full w-full overflow-hidden ${bgColor} `}>

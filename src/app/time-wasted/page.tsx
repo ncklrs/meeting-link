@@ -15,13 +15,11 @@ export default function PersonalCostPage() {
 
   return (
     <>
-      <OptInBanner />
+      {/* <OptInBanner /> */}
       <MeetingCostProvider>
         <div className={`${bgColor} py-24 sm:py-32 font-sans`}>
           <div className="mx-auto max-w-2xl px-6 lg:max-w-7xl lg:px-8">
-            <h2
-              className={`text-base/7 font-semibold text-cyan-600 ${textColor}`}
-            >
+            <h2 className={`text-base/7 font-semibold ${textColor}`}>
               Spend a lot of time in meetings?
             </h2>
             <p

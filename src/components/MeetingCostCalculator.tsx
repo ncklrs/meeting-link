@@ -25,16 +25,14 @@ const defaultAttendees: Array<Omit<Attendee, "id">> = [
 export function MeetingCostCalculator({
   isDark = true,
 }: MeetingCostCalculatorProps) {
-  const bgColor = isDark ? "bg-gray-900" : "bg-white";
-  const textColor = isDark ? "text-white" : "text-gray-900";
+  const bgColor = isDark ? "bg-gray-800" : "bg-background"; // Background color
+  const textColor = isDark ? "text-gray-50" : "text-primaryText"; // Primary text color
 
   return (
     <MeetingCostProvider defaultAttendees={defaultAttendees}>
       <div className={`${bgColor} py-24 sm:py-32 font-sans`}>
         <div className="mx-auto max-w-2xl px-6 lg:max-w-7xl lg:px-8">
-          <h2
-            className={`text-base/7 font-semibold text-cyan-600 ${textColor}`}
-          >
+          <h2 className={`text-base/7 font-semibold ${textColor}`}>
             Meeting Cost Calculator
           </h2>
           <p

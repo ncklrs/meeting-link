@@ -9,9 +9,9 @@ interface ImpactSummaryProps {
 export function ImpactSummary({ isDark = true }: ImpactSummaryProps) {
   const { currentCost, elapsedTime, attendees } = useMeetingCost();
 
-  const bgColor = isDark ? "bg-gray-800" : "bg-white";
-  const textColor = isDark ? "text-white" : "text-gray-900";
-  const accentColor = isDark ? "text-indigo-400" : "text-indigo-600";
+  const bgColor = isDark ? "bg-gray-800" : "bg-background"; // Background color
+  const textColor = isDark ? "text-gray-50" : "text-primaryText"; // Primary text color
+  const accentColor = isDark ? "bg-gray-700" : "bg-secondaryBackground"; // Item background color
 
   const weeklyMeetingHours = (elapsedTime / 3600) * 5; // Assuming 5 similar meetings per week
   const annualMeetingHours = weeklyMeetingHours * 52;

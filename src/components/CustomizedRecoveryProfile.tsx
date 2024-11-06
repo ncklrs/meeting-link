@@ -13,10 +13,9 @@ export function CustomizedRecoveryProfile({
 }: CustomizedRecoveryProfileProps) {
   const [recoveryTime, setRecoveryTime] = useState(15);
 
-  const bgColor = isDark ? "bg-gray-800" : "bg-white";
-  const textColor = isDark ? "text-white" : "text-gray-900";
-  const accentColor = isDark ? "text-indigo-400" : "text-indigo-600";
-
+  const bgColor = isDark ? "bg-gray-800" : "bg-background"; // Background color
+  const textColor = isDark ? "text-gray-50" : "text-primaryText"; // Primary text color
+  const accentColor = isDark ? "bg-gray-700" : "text-primaryAccent"; // Item background color
   return (
     <Card
       className={`w-full h-full overflow-hidden rounded-lg ${bgColor} ring-1 ring-gray-200 dark:ring-white/15`}

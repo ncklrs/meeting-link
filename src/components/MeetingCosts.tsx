@@ -24,8 +24,8 @@ function MeetingCostCalculatorContent({
 }: MeetingCostCalculatorProps) {
   const { estimatedTime, setEstimatedTime } = useMeetingCost();
 
-  const bgColor = isDark ? "bg-gray-900" : "bg-white";
-  const textColor = isDark ? "text-white" : "text-gray-900";
+  const bgColor = isDark ? "bg-gray-800" : "bg-background"; // Background color
+  const textColor = isDark ? "text-gray-50" : "text-primaryText"; // Primary text color
 
   return (
     <div className={`${bgColor} py-24 sm:py-32`}>

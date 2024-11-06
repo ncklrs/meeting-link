@@ -4,6 +4,7 @@ import "./globals.css";
 import { GoogleTagManager } from "@next/third-parties/google";
 import Analytics from "@/components/analytics";
 import { Suspense } from "react";
+import NavBar from "@/components/shared/NavBar";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -32,6 +33,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <NavBar />
         {children}
       </body>
       <Suspense fallback={<div>Loading...</div>}>

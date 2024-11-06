@@ -79,7 +79,7 @@ export function PersonalCostCalculator({
           </div>
           <div className="pt-4">
             <p className="text-lg font-semibold">Your Annual Meeting Cost:</p>
-            <p className="text-6xl font-bold font-sans text-cyan-600">
+            <p className="text-6xl font-bold font-sans ">
               ${meetingCost.toFixed(2)}
             </p>
           </div>
