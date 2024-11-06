@@ -10,34 +10,40 @@ interface MeetingState {
   salaryType: "hourly" | "annual";
   dailyMeetingHours: DailyMeetingHours;
   recoveryTimePerHour: number;
+  isDataSubmitted: boolean;
   setSalary: (salary: number | null) => void;
   setSalaryType: (type: "hourly" | "annual") => void;
-  setDailyMeetingHours: (day: string, hours: number) => void;
+  setDailyMeetingHours: (hours: DailyMeetingHours) => void;
   setRecoveryTimePerHour: (time: number) => void;
-  resetSalary: () => void;
+  setIsDataSubmitted: (isSubmitted: boolean) => void;
+  resetAllData: () => void;
 }
+
+const initialState = {
+  salary: null,
+  salaryType: "annual" as const,
+  dailyMeetingHours: {
+    Monday: 2,
+    Tuesday: 3,
+    Wednesday: 2,
+    Thursday: 4,
+    Friday: 1,
+  },
+  recoveryTimePerHour: 30,
+  isDataSubmitted: false,
+};
 
 export const useMeetingStore = create<MeetingState>()(
   persist(
     (set) => ({
-      salary: null,
-      salaryType: "annual",
-      dailyMeetingHours: {
-        Monday: 2,
-        Tuesday: 3,
-        Wednesday: 2,
-        Thursday: 4,
-        Friday: 1,
-      },
-      recoveryTimePerHour: 30,
+      ...initialState,
       setSalary: (salary) => set({ salary }),
       setSalaryType: (salaryType) => set({ salaryType }),
-      setDailyMeetingHours: (day, hours) =>
-        set((state) => ({
-          dailyMeetingHours: { ...state.dailyMeetingHours, [day]: hours },
-        })),
+      setDailyMeetingHours: (hours) => set({ dailyMeetingHours: hours }),
       setRecoveryTimePerHour: (time) => set({ recoveryTimePerHour: time }),
-      resetSalary: () => set({ salary: null }),
+      setIsDataSubmitted: (isSubmitted) =>
+        set({ isDataSubmitted: isSubmitted }),
+      resetAllData: () => set(initialState),
     }),
     {
       name: "meeting-storage",
