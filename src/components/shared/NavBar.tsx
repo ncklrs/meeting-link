@@ -54,6 +54,7 @@ export default function NavBar() {
     name: string;
     email: string;
   }
+  const pathname = usePathname();
   const [isVisible, setIsVisible] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -75,7 +76,7 @@ export default function NavBar() {
   };
 
   if (!isVisible) return null;
-  const pathname = usePathname();
+
   const navigation = navigationItems.map((item) => ({
     ...item,
     current: item.href === pathname,
@@ -131,7 +132,8 @@ export default function NavBar() {
                   onClick={() => {
                     analytics.track("CTA Click", {
                       category: "User Engagement",
-                      label: "OptInBanner",
+                      label: "SignManifesto",
+                      location: "NavBar",
                     });
                     setIsDialogOpen(true);
                   }}
