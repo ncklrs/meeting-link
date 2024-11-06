@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   Card,
   CardContent,
@@ -23,11 +23,7 @@ export function PersonalCostCalculator({
   const [annualSalary, setAnnualSalary] = useState("");
   const [meetingCost, setMeetingCost] = useState(0);
 
-  useEffect(() => {
-    calculateMeetingCost();
-  }, [weeklyMeetingHours, annualSalary]);
-
-  const calculateMeetingCost = () => {
+  const calculateMeetingCost = useCallback(() => {
     const hours = parseFloat(weeklyMeetingHours);
     const salary = parseFloat(annualSalary);
     if (hours && salary) {
@@ -37,7 +33,11 @@ export function PersonalCostCalculator({
     } else {
       setMeetingCost(0);
     }
-  };
+  }, [weeklyMeetingHours, annualSalary]);
+
+  useEffect(() => {
+    calculateMeetingCost();
+  }, [weeklyMeetingHours, annualSalary, calculateMeetingCost]);
 
   return (
     <Card
