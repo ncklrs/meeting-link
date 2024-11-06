@@ -116,35 +116,42 @@ export function PersonalMeetingTollCalculator({
         </p>
 
         {!isDataSubmitted ? (
-          <form onSubmit={handleSubmit} className="space-y-8">
-            <SalaryInformationCard
-              bgColor={bgColor}
-              textColor={textColor}
-              tempSalary={Number(tempSalary)}
-              setTempSalary={setTempSalary}
-              tempSalaryType={tempSalaryType}
-              setTempSalaryType={setTempSalaryType}
-            />
+          <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+            <form onSubmit={handleSubmit} className="space-y-8">
+              <SalaryInformationCard
+                bgColor={bgColor}
+                textColor={textColor}
+                tempSalary={Number(tempSalary)}
+                setTempSalary={setTempSalary}
+                tempSalaryType={tempSalaryType}
+                setTempSalaryType={setTempSalaryType}
+              />
 
-            <DailyMeetingHoursCard
-              bgColor={bgColor}
-              textColor={textColor}
-              tempDailyHours={tempDailyHours}
-              setTempDailyHours={setTempDailyHours}
-            />
-            <RecoveryTimeCard
-              bgColor={bgColor}
-              textColor={textColor}
-              tempRecoveryTime={tempRecoveryTime}
-              setTempRecoveryTime={setTempRecoveryTime}
-            />
-            <div className="flex justify-end space-x-4">
-              <Button type="button" variant="outline" onClick={handleReset}>
-                Reset
-              </Button>
-              <Button type="submit">Calculate</Button>
-            </div>
-          </form>
+              <DailyMeetingHoursCard
+                bgColor={bgColor}
+                textColor={textColor}
+                tempDailyHours={tempDailyHours}
+                setTempDailyHours={setTempDailyHours}
+              />
+              <RecoveryTimeCard
+                bgColor={bgColor}
+                textColor={textColor}
+                tempRecoveryTime={tempRecoveryTime}
+                setTempRecoveryTime={setTempRecoveryTime}
+              />
+              <div className="flex justify-end space-x-4">
+                <Button type="button" variant="outline" onClick={handleReset}>
+                  Reset
+                </Button>
+                <Button
+                  type="submit"
+                  className="bg-primaryAccent text-white font-semibold hover:bg-primaryAccent/80"
+                >
+                  Calculate
+                </Button>
+              </div>
+            </form>
+          </div>
         ) : (
           <>
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
@@ -185,7 +192,12 @@ export function PersonalMeetingTollCalculator({
                     />
                   </div>
                   <DialogFooter>
-                    <Button type="submit">Save changes</Button>
+                    <Button
+                      type="submit"
+                      className="bg-primaryAccent text-white font-semibold hover:bg-primaryAccent/80"
+                    >
+                      Save changes
+                    </Button>
                   </DialogFooter>
                 </form>
               </DialogContent>
