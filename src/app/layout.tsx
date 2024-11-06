@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { GoogleTagManager } from "@next/third-parties/google";
 import Analytics from "@/components/analytics";
+import { Suspense } from "react";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -27,13 +28,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <GoogleTagManager gtmId="GTM-KQ38QKSK" />
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
-      <Analytics />
+      <Suspense fallback={<div>Loading...</div>}>
+        <GoogleTagManager gtmId="GTM-KQ38QKSK" />
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
+          {children}
+        </body>
+        <Analytics />
+      </Suspense>
     </html>
   );
 }
