@@ -10,27 +10,60 @@ interface AddAttendeeFormProps {
   isDark?: boolean;
 }
 
+const PRESETS = [
+  { label: "Engineer ($150k)", name: "Engineer", salary: 150000, salaryType: "annual" as const },
+  { label: "Designer ($120k)", name: "Designer", salary: 120000, salaryType: "annual" as const },
+  { label: "Manager ($130k)", name: "Manager", salary: 130000, salaryType: "annual" as const },
+  { label: "Executive ($200k)", name: "Executive", salary: 200000, salaryType: "annual" as const },
+];
+
 export function AddAttendeeForm({ isDark = true }: AddAttendeeFormProps) {
   const { addAttendee } = useMeetingCost();
   const [name, setName] = useState("");
   const [salary, setSalary] = useState("");
   const [salaryType, setSalaryType] = useState<"hourly" | "annual">("annual");
+  const [errors, setErrors] = useState<{ name?: string; salary?: string }>({});
+
+  const validate = (): boolean => {
+    const newErrors: { name?: string; salary?: string } = {};
+    const trimmedName = name.trim();
+    if (!trimmedName) {
+      newErrors.name = "Name is required";
+    }
+    const parsedSalary = parseFloat(salary);
+    if (!salary || isNaN(parsedSalary)) {
+      newErrors.salary = "Valid salary is required";
+    } else if (parsedSalary <= 0) {
+      newErrors.salary = "Salary must be positive";
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (name && salary) {
-      addAttendee({
-        name,
-        salary: parseFloat(salary),
-        salaryType,
-      });
-      setName("");
-      setSalary("");
-    }
+    if (!validate()) return;
+    addAttendee({
+      name: name.trim(),
+      salary: parseFloat(salary),
+      salaryType,
+    });
+    setName("");
+    setSalary("");
+    setErrors({});
+  };
+
+  const handlePreset = (preset: typeof PRESETS[number]) => {
+    addAttendee({
+      name: preset.name,
+      salary: preset.salary,
+      salaryType: preset.salaryType,
+    });
   };
 
   const bgColor = isDark ? "bg-gray-800" : "bg-white";
   const textColor = isDark ? "text-white" : "text-gray-900";
+  const errorColor = "text-red-500 text-sm mt-1";
 
   return (
     <Card className={`h-full w-full overflow-hidden ${bgColor} `}>
@@ -38,6 +71,20 @@ export function AddAttendeeForm({ isDark = true }: AddAttendeeFormProps) {
         <CardTitle className={textColor}>Add Attendee</CardTitle>
       </CardHeader>
       <CardContent>
+        <div className="mb-4 flex flex-wrap gap-2">
+          {PRESETS.map((preset) => (
+            <Button
+              key={preset.label}
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => handlePreset(preset)}
+              className="text-xs"
+            >
+              + {preset.label}
+            </Button>
+          ))}
+        </div>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <Label htmlFor="name" className={textColor}>
@@ -46,9 +93,11 @@ export function AddAttendeeForm({ isDark = true }: AddAttendeeFormProps) {
             <Input
               id="name"
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) => { setName(e.target.value); setErrors((prev) => ({ ...prev, name: undefined })); }}
+              placeholder="e.g. Jane Smith"
               className="mt-1"
             />
+            {errors.name && <p className={errorColor}>{errors.name}</p>}
           </div>
           <div>
             <Label htmlFor="salary" className={textColor}>
@@ -57,10 +106,14 @@ export function AddAttendeeForm({ isDark = true }: AddAttendeeFormProps) {
             <Input
               id="salary"
               type="number"
+              min="0"
+              step="any"
               value={salary}
-              onChange={(e) => setSalary(e.target.value)}
+              onChange={(e) => { setSalary(e.target.value); setErrors((prev) => ({ ...prev, salary: undefined })); }}
+              placeholder={salaryType === "annual" ? "e.g. 120000" : "e.g. 75"}
               className="mt-1"
             />
+            {errors.salary && <p className={errorColor}>{errors.salary}</p>}
           </div>
           <div>
             <Label htmlFor="salaryType" className={textColor}>

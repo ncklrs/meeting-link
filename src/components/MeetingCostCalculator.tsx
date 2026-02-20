@@ -5,6 +5,8 @@ import { TimerControls } from "./TimerControls";
 import { EstimatedCost } from "./EstimatedCost";
 import { AddAttendeeForm } from "./AddAttendeeForm";
 import { AttendeeList } from "./AttendeeList";
+import { MeetingSummary } from "./MeetingSummary";
+import { ExportButton } from "./ExportButton";
 
 interface MeetingCostCalculatorProps {
   isDark?: boolean;
@@ -80,6 +82,12 @@ export function MeetingCostCalculator({
               </div>
               <div className="pointer-events-none absolute inset-px rounded-lg shadow ring-1 ring-black/5 lg:rounded-br-[2rem]" />
             </div>
+          </div>
+          <div className="mt-6 flex items-center gap-4">
+            <ExportButton isDark={isDark} />
+          </div>
+          <div className="mt-6">
+            <MeetingSummary isDark={isDark} />
           </div>
         </div>
       </div>

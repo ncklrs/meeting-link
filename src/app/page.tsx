@@ -16,7 +16,7 @@ export default function LandingPage() {
         </div>
       </div>
 
-      {/* <MeetingCostCalculator isDark={false} /> */}
+      <MeetingCostCalculator isDark={false} />
     </>
   );
 }

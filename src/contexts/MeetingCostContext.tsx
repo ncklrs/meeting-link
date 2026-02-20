@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect, useMemo } from "react";
 
 interface Attendee {
   id: string;
@@ -23,6 +23,9 @@ interface MeetingCostContextType {
   setPersonalHourlyRate: (rate: number) => void;
   personalMeetingHours: number;
   setPersonalMeetingHours: (hours: number) => void;
+  costThreshold: number;
+  setCostThreshold: (threshold: number) => void;
+  totalHourlyRate: number;
   inefficiencyMetrics: {
     smallTalkTime: number;
     waitingTime: number;
@@ -57,13 +60,13 @@ export function MeetingCostProvider({
       id: Date.now().toString() + Math.random().toString(),
     }))
   );
-  // const [attendees, setAttendees] = useState<Attendee[]>([]);
   const [currentCost, setCurrentCost] = useState(0);
   const [elapsedTime, setElapsedTime] = useState(0);
   const [estimatedTime, setEstimatedTime] = useState(60);
   const [isRunning, setIsRunning] = useState(false);
   const [personalHourlyRate, setPersonalHourlyRate] = useState(0);
   const [personalMeetingHours, setPersonalMeetingHours] = useState(0);
+  const [costThreshold, setCostThreshold] = useState(500);
   const [inefficiencyMetrics, setInefficiencyMetrics] = useState({
     smallTalkTime: 5,
     waitingTime: 5,
@@ -76,6 +79,18 @@ export function MeetingCostProvider({
     decisionDelayTime: 10,
     passiveListeningPercentage: 30,
   });
+
+  const totalHourlyRate = useMemo(
+    () =>
+      attendees.reduce((acc, attendee) => {
+        const hourly =
+          attendee.salaryType === "annual"
+            ? attendee.salary / 2080
+            : attendee.salary;
+        return acc + hourly;
+      }, 0),
+    [attendees]
+  );
 
   const addAttendee = (attendee: Omit<Attendee, "id">) => {
     setAttendees([...attendees, { ...attendee, id: Date.now().toString() }]);
@@ -105,18 +120,12 @@ export function MeetingCostProvider({
     if (isRunning) {
       interval = setInterval(() => {
         setElapsedTime((prev) => prev + 1);
-        const totalCostPerSecond = attendees.reduce((acc, attendee) => {
-          const hourlyRate =
-            attendee.salaryType === "annual"
-              ? attendee.salary / 2080
-              : attendee.salary;
-          return acc + hourlyRate / 3600;
-        }, 0);
+        const totalCostPerSecond = totalHourlyRate / 3600;
         setCurrentCost((prev) => prev + totalCostPerSecond);
       }, 1000);
     }
     return () => clearInterval(interval);
-  }, [isRunning, attendees]);
+  }, [isRunning, totalHourlyRate]);
 
   return (
     <MeetingCostContext.Provider
@@ -136,6 +145,9 @@ export function MeetingCostProvider({
         setPersonalHourlyRate,
         personalMeetingHours,
         setPersonalMeetingHours,
+        costThreshold,
+        setCostThreshold,
+        totalHourlyRate,
         inefficiencyMetrics,
         updateInefficiencyMetric,
       }}

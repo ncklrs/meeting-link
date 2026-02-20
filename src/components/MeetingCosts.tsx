@@ -14,6 +14,8 @@ import { CustomizedRecoveryProfile } from "./CustomizedRecoveryProfile";
 import { ImpactSummary } from "./ImpactSummary";
 import { PersonalCalculator } from "./PersonalCalculator";
 import { MeetingInefficiencyCalculator } from "./MeetingInefficiencyCalculator";
+import { MeetingSummary } from "./MeetingSummary";
+import { ExportButton } from "./ExportButton";
 
 interface MeetingCostCalculatorProps {
   isDark?: boolean;
@@ -70,7 +72,13 @@ function MeetingCostCalculatorContent({
             <PersonalCalculator isDark={isDark} />
           </div>
         </div>
-        <TimerControls isDark={isDark} />
+        <div className="mt-6 flex items-center gap-4">
+          <TimerControls isDark={isDark} />
+          <ExportButton isDark={isDark} />
+        </div>
+        <div className="mt-6">
+          <MeetingSummary isDark={isDark} />
+        </div>
         <div className="mt-6">
           <AttendeeList isDark={isDark} />
         </div>
