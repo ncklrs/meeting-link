@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useMemo } from "react";
 import {
   Card,
   CardContent,
@@ -18,26 +18,18 @@ export function PersonalCostCalculator({
   isDark = true,
 }: PersonalCostCalculatorProps) {
   const bgColor = isDark ? "bg-gray-900" : "bg-white";
-  // const textColor = isDark ? "text-white" : "text-gray-900";
   const [weeklyMeetingHours, setWeeklyMeetingHours] = useState("");
   const [annualSalary, setAnnualSalary] = useState("");
-  const [meetingCost, setMeetingCost] = useState(0);
 
-  const calculateMeetingCost = useCallback(() => {
+  const meetingCost = useMemo(() => {
     const hours = parseFloat(weeklyMeetingHours);
     const salary = parseFloat(annualSalary);
     if (hours && salary) {
       const weeklyCost = (salary / 52 / 40) * hours;
-      const annualCost = weeklyCost * 52;
-      setMeetingCost(annualCost);
-    } else {
-      setMeetingCost(0);
+      return weeklyCost * 52;
     }
+    return 0;
   }, [weeklyMeetingHours, annualSalary]);
-
-  useEffect(() => {
-    calculateMeetingCost();
-  }, [weeklyMeetingHours, annualSalary, calculateMeetingCost]);
 
   return (
     <Card
