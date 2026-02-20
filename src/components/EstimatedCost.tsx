@@ -39,7 +39,11 @@ export function EstimatedCost({ isDark = true }: EstimatedCostProps) {
             id="estimatedTime"
             type="number"
             value={estimatedTime}
-            onChange={(e) => setEstimatedTime(parseInt(e.target.value))}
+            min="1"
+            onChange={(e) => {
+              const val = parseInt(e.target.value);
+              if (!isNaN(val) && val > 0) setEstimatedTime(val);
+            }}
             className="mt-1"
           />
         </div>
